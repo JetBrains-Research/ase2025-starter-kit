@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ase2025-starter-kit"
+version = "0.1.0"
+description = "Starter kit for the Co4 competition"
+authors = ["Egor Bogomolov <egor.bogomolov@jetbrains.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+jsonlines = "^4.0.0"
+argparse = "^1.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
