@@ -10,6 +10,8 @@ readme = "README.md"
 python = "^3.11"
 jsonlines = "^4.0.0"
 argparse = "^1.4.0"
+tqdm = "^4.67.1"
+rank-bm25 = "^0.2.2"
 
 
 [build-system]
