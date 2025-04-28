@@ -40,5 +40,5 @@ To run the baselines:
 
 ### Submitting your solution
 
-Go to the [submission page]() and upload the generated prediction file.
+Go to the [submission page](https://eval.ai/web/challenges/challenge-page/2497/submission) and upload the generated prediction file to the respective stage.
 
