@@ -7,11 +7,20 @@ from rank_bm25 import BM25Okapi
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument("--stage", type=str, default="start", help="Stage of the project")
+argparser.add_argument("--lang", type=str, default="python", help="Stage of the project")
 argparser.add_argument("--strategy", type=str, default="random", help="Stage of the project")
 args = argparser.parse_args()
 
 stage = args.stage
+language = args.lang
 strategy = args.strategy
+
+if language == "python":
+    extension = ".py"
+elif language == "kotlin":
+    extension = ".kt"
+else:
+    raise ValueError(f"Unsupported language: {language}")
 
 print(f"Running the {strategy} baseline for stage '{stage}'")
 
@@ -22,9 +31,13 @@ FILE_COMPOSE_FORMAT = "{file_sep}{file_name}\n{file_content}"
 
 
 
-def find_random_python_file(root_dir: str, min_lines: int = 10) -> str:
+def find_random_file(root_dir: str, min_lines: int = 10) -> str:
     """
-    Select a random Python file in the given directory and its subdirectories.
+    Select a random file:
+        - in the given language
+        - in the given directory and its subdirectories
+        - meeting length requirements
+
     :param root_dir: Directory to search for Python files.
     :param min_lines: Minimum number of lines required in the file.
     :return: Selected random file.
@@ -33,7 +46,7 @@ def find_random_python_file(root_dir: str, min_lines: int = 10) -> str:
 
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
-            if filename.endswith(".py"):
+            if filename.endswith(extension):
                 file_path = os.path.join(dirpath, filename)
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
@@ -48,10 +61,15 @@ def find_random_python_file(root_dir: str, min_lines: int = 10) -> str:
     return random.choice(python_files) if python_files else None
 
 
-def find_bm25_python_file(root_dir: str, prefix: str, suffix: str, min_lines: int = 10) -> str:
+def find_bm25_file(root_dir: str, prefix: str, suffix: str, min_lines: int = 10) -> str:
     """
-    Select the Python file with the highest BM25 score with the completion file in the given directory and its subdirectories..
-    :param root_dir: Directory to search for Python files.
+    Select the file:
+        - in the given language
+        - with the highest BM25 score with the completion file
+        - in the given directory and its subdirectories
+        - meeting length requirements
+
+    :param root_dir: Directory to search for files.
     :param prefix: Prefix of the completion file.
     :param suffix: Suffix of the completion file.
     :param min_lines: Minimum number of lines required in the file.
@@ -66,7 +84,7 @@ def find_bm25_python_file(root_dir: str, prefix: str, suffix: str, min_lines: in
 
     for dirpath, dirnames, filenames in os.walk(root_dir):
         for filename in filenames:
-            if filename.endswith(".py"):
+            if filename.endswith(extension):
                 file_path = os.path.join(dirpath, filename)
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
@@ -92,10 +110,10 @@ def find_bm25_python_file(root_dir: str, prefix: str, suffix: str, min_lines: in
 
 
 # Path to the file with completion points
-completion_points_file = os.path.join("data", f"completion_points_{stage}.jsonl")
+completion_points_file = os.path.join("data", f"{language}-{stage}.jsonl")
 
 # Path to the file to store predictions
-predictions_file = os.path.join("predictions", f"{stage}_single_{strategy}.jsonl")
+predictions_file = os.path.join("predictions", f"{language}-{stage}-{strategy}.jsonl")
 
 with jsonlines.open(completion_points_file, 'r') as reader:
     with jsonlines.open(predictions_file, 'w') as writer:
@@ -103,13 +121,13 @@ with jsonlines.open(completion_points_file, 'r') as reader:
             # Identify the repository storage for the datapoint
             repo_path = datapoint['repo'].replace("/", "__")
             repo_revision = datapoint['revision']
-            root_directory = os.path.join("data", f"repositories_{stage}", f"{repo_path}-{repo_revision}")
+            root_directory = os.path.join("data", f"repositories-{language}-{stage}", f"{repo_path}-{repo_revision}")
 
             # Run the baseline strategy
             if strategy == "random":
-                file_name = find_random_python_file(root_directory)
+                file_name = find_random_file(root_directory)
             elif strategy == "bm25":
-                file_name = find_bm25_python_file(root_directory, datapoint['prefix'], datapoint['suffix'])
+                file_name = find_bm25_file(root_directory, datapoint['prefix'], datapoint['suffix'])
             else:
                 raise ValueError(f"Unknown strategy: {strategy}")
 
