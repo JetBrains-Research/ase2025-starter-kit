@@ -40,6 +40,11 @@ To run the baselines:
    - You can replace `python` with `kotlin` for another split
 3. The prediction file will be saved in the `predictions` folder.
 
+### Implementing own strategy
+Please look at the implementation of the baselines in [baselines.py](baselines.py) for an example of output formatting.
+
+If the selected context contains multiple files, their parts included in the context should be separated by `<|file_sep|>`.
+
 ### Submitting your solution
 
 Go to the [submission page](https://eval.ai/web/challenges/challenge-page/2516/submission) and upload the generated prediction file to the respective stage.
