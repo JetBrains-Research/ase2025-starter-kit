@@ -33,7 +33,7 @@ The starter kit contains two baselines in [baselines.py](baselines.py)
 2. Selecting a single Python file according to [BM-25](https://en.wikipedia.org/wiki/Okapi_BM25) metric. 
 
 To run the baselines:
-1. `poetry install` &ndash; install dependencies via poetry
+1. `poetry install --no-root` &ndash; install dependencies via poetry
 2. `poetry run python baselines.py --stage start --strategy random --lang python` &ndash; run the baselines
    - You can replace `start` with the stage, e.g., `practice`
    - You can replace `random` with another strategy, e.g., `bm25`
