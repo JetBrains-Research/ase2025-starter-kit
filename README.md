@@ -21,7 +21,7 @@ data
 ```
 
 To prepare data for the starter kit:
-1. Download the data for the respective stage from the competition website.
+1. Download the data for the respective stage from [the shared folder](https://drive.google.com/drive/folders/1wcpq7ob33z5wHNFzUaiJWuHWw8sNuumC).
 2. Put the `{language}-{stage}.jsonl` file (datapoints) and the `{language}-{stage}.zip` archive (repos) to the `data` folder.
 3. Run `./prepare_data.sh start python`, possibly replacing `start` with the stage and `python` with `kotlin`.
 
