@@ -1,13 +1,18 @@
 # Co4 Starter Kit
 
-Welcome to the starter kit for the Co4 competition. 
-It will guide you from the moment of downloading data to running a baseline solution and making your first submission. 
+Welcome to the starter kit for the [CO4 competition](https://jb.gg/co4). 
+It will guide you from the moment of downloading data to running a baseline solution and making your first submission.
+Please feel free to fork the starter kit to use it as the starting point for your solutions.
 
-## Getting Started
+### Objective
+The objective of the competition is to implement a context collection strategy that yields the most accurate code completions when provided to LLMs.
+Please read the [competition page](https://jb.gg/co4) for details.
+
+## Getting Started 
 
 ### Data Preparation
 
-The kit expects that the data files are stored in the `data` folder. 
+The starter kit expects that data files are stored in the `data` folder. 
 `stage` is the competition stage, for the files already available in the starter kit `stage = "start"`. 
 `language` is the language split, `kotlin` or `python`.
 
@@ -26,11 +31,11 @@ To prepare data for the starter kit:
 3. Run `./prepare_data.sh practice python`, possibly replacing `practice` with the stage and `python` with `kotlin`.
 
 
-### Running baselines
+### Running the baselines
 
 The starter kit contains two baselines in [baselines.py](baselines.py) 
 1. Selecting a random Python file from the repository.
-2. Selecting a single Python file according to [BM-25](https://en.wikipedia.org/wiki/Okapi_BM25) metric. 
+2. Selecting a single Python file according to the [BM-25](https://en.wikipedia.org/wiki/Okapi_BM25) metric. 
 
 To run the baselines:
 1. `poetry install --no-root` &ndash; install dependencies via poetry
@@ -40,12 +45,11 @@ To run the baselines:
    - You can replace `python` with `kotlin` for another split
 3. The prediction file will be saved in the `predictions` folder.
 
-### Implementing own strategy
-Please look at the implementation of the baselines in [baselines.py](baselines.py) for an example of output formatting.
-
+### Implementing your own strategy
+Please look at the implementation of the baselines in [baselines.py](baselines.py) for an example.
 If the selected context contains multiple files, their parts included in the context should be separated by `<|file_sep|>`.
 
 ### Submitting your solution
 
-Go to the [submission page](https://eval.ai/web/challenges/challenge-page/2516/submission) and upload the generated prediction file to the respective stage.
+Go to the [submission page](https://eval.ai/web/challenges/challenge-page/2516/submission), select the stage, and upload the generated prediction file.
 
