@@ -33,7 +33,7 @@ To prepare data for the starter kit:
 
 ### Running the baselines
 
-The starter kit contains two baselines in [baselines.py](baselines.py) 
+The starter kit contains two baselines in [baselines.py](baselines.py) and an option to modify prefix/suffix of the completion file. 
 1. Selecting a random Python file from the repository.
 2. Selecting a single Python file according to the [BM-25](https://en.wikipedia.org/wiki/Okapi_BM25) metric. 
 
@@ -45,6 +45,7 @@ To run the baselines:
    - You can replace `practice` with `public` to generate a complete submission for the competition
    - You can replace `random` with another strategy, e.g., `bm25`
    - You can replace `python` with `kotlin` for another split
+   - You can provide `--trim-prefix` and/or `trim-suffix` to modify the used prefix and suffix of the completion file by trimming it to 10 lines
 3. The prediction file will be saved in the `predictions` folder.
 
 ### Implementing your own strategy
@@ -52,14 +53,21 @@ Please look at the implementation of the baselines in [baselines.py](baselines.p
 If the selected context contains multiple files, their parts included in the context should be separated by `<|file_sep|>`.
 
 ### Prediction file format
-The predictions are expected in a JSON Lines file, with each object having a single ``context`` field:
+The predictions are expected in a JSON Lines file, with each object having a ``context`` field:
 ```
 {"context": "**context for prediction 1**"}
 {"context": "**context for prediction 2**"}
 ...
 {"context": "**context for prediction N**"}
 ```
-The number and order of the objects should correspond to the objects in the input ``.jsonl`` file. 
+The number and order of the objects should correspond to the objects in the input ``.jsonl`` file.
+
+Optionally, you can submit your own version of the prefix and suffix of the completion file. 
+If they are not provided, the default values (the entire prefix and suffix of the file) will be used. 
+In that case, the format of an entrypoint in the file is:
+```
+{"context": "**context for prediction", "prefix": "custom prefix", "suffix": "custom suffix"}
+```
 
 ### Submitting your solution
 
